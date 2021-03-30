@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="columns">
+        <div class="column is-three-fifths is-offset-one-fifth">
+
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="notification is-danger is-light" role="alert">{{ flashError }}</div>
+            {% endfor %}
+
+            <h3 class="title is-3">My Profile</h3>
+
+            {{ form_start(profileForm) }}
+
+                {{ form_row(profileForm.sex) }}
+                {{ form_row(profileForm.info) }}
+                {{ form_row(profileForm.dateBirthday) }}
+                {{ form_row(profileForm.codePostal) }}
+                {{ form_row(profileForm.city) }}
+
+                <div class="buttons mt-3">
+                    <button type="submit" class="button is-danger is-light">Validate</button>
+                    <button type="reset" class="button is-info is-light">Cancel</button>
+                </div>
+            {{ form_end(profileForm) }}
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
