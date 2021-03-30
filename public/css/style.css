@@ -1,0 +1,5 @@
+/* image de fond sur l'accueil */
+.hero {
+    background-image: url("../img/banniere.jpg");
+}
+
