@@ -53,6 +53,11 @@ class Profile
      */
     private $user;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Picture::class, inversedBy="profile", cascade={"persist", "remove"})
+     */
+    private $picture;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Profile
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?Picture $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
