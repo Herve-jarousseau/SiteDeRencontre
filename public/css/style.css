@@ -3,3 +3,15 @@
     background-image: url("../img/banniere.jpg");
 }
 
+label, input {
+    display: block;
+}
+
+label, input {
+    width: 100%;
+}
+
+#registration_form_agreeTerms {
+    display: inline;
+    width: auto;
+}

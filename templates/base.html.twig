@@ -27,7 +27,7 @@
     Title
     #}
     <link rel="icon" type="image/gif" href="{{ asset('icon/favicon.png') }}" />
-    <title>{% block title %}Bucket-List{% endblock %}</title>
+    <title>{% block title %}Fall-In-Love{% endblock %}</title>
 </head>
 <body>
 <header>
@@ -48,14 +48,14 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-
-                    <a class="navbar-item" href="">
-                        Find Love
-                    </a>
-                    <a class="navbar-item" href="">
-                        My profil
-                    </a>
-
+                    {% if app.user %}
+                        <a class="navbar-item" href="">
+                            Find Love
+                        </a>
+                        <a class="navbar-item" href="">
+                            My profil
+                        </a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -63,18 +63,18 @@
                 <div class="navbar-item">
                     <div class="buttons">
 
-
-                            <a class="button is-danger is-light" href="">
-                                <strong>Inscription</strong>
+                        {% if not app.user %}
+                            <a class="button is-danger is-light" href="{{ path('app_register') }}">
+                                <strong>Register</strong>
                             </a>
-                            <a class="button is-light" href="">
-                                Connexion
+                            <a class="button is-light" href="{{ path('app_login') }}">
+                                Sign In
                             </a>
-
-                            <a class="button is-light" href="">
-                                Déconnexion
+                        {% else %}
+                            <a class="button is-light" href="{{ path('app_logout') }}">
+                                Sign Out
                             </a>
-
+                        {% endif %}
 
                     </div>
                 </div>
