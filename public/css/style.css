@@ -7,7 +7,7 @@ label, input, textarea {
     display: block;
 }
 
-label, input, textarea {
+label, input, textarea, table {
     width: 100%;
 }
 
@@ -16,3 +16,7 @@ label, input, textarea {
     width: auto;
 }
 
+#imgProfile {
+    width: 250px;
+    height: 250px;
+}

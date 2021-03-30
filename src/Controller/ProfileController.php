@@ -8,6 +8,7 @@ use App\Entity\Picture;
 use App\Entity\Profile;
 use App\Form\ProfileFormType;
 use App\Form\ProfilePictureFormType;
+use App\Repository\ProfileRepository;
 use claviska\SimpleImage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -77,7 +78,9 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             // on hydrate notre objet
             $picture->setFileName($newFileName);
             $picture->setDateCreated(new \DateTime());
-            $this->getUser()->getProfile()->setPicture($picture);
+            $picture->setProfile($this->getUser()->getProfile());
+            //$this->getUser()->getProfile()->setPicture($picture);
+
             // on requête
             $em->persist($picture);
             $em->flush();
@@ -94,7 +97,14 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     /**
      * @Route("/profile/info/{id}", name="profile_info", requirements={"id"="\d+"})
      */
-    public function Informations(Request $request, EntityManagerInterface $em): Response {
+    public function Informations(Request $request, ProfileRepository $profileRepository, EntityManagerInterface $em, $id): Response {
+
+        $userProfile = $profileRepository->find($id);
+
+
+        return $this->render('/profile/infoProfile.html.twig', [
+            'profil' => $userProfile,
+        ]);
 
     }
 

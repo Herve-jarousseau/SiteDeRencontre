@@ -28,9 +28,12 @@ class Picture
     private $dateCreated;
 
     /**
-     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="picture", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Profile::class, inversedBy="picture", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $profile;
+
+
 
     public function getId(): ?int
     {
@@ -66,20 +69,12 @@ class Picture
         return $this->profile;
     }
 
-    public function setProfile(?Profile $profile): self
+    public function setProfile(Profile $profile): self
     {
-        // unset the owning side of the relation if necessary
-        if ($profile === null && $this->profile !== null) {
-            $this->profile->setPicture(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($profile !== null && $profile->getPicture() !== $this) {
-            $profile->setPicture($this);
-        }
-
         $this->profile = $profile;
 
         return $this;
     }
+
+
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,9 +56,20 @@ class Profile
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=Picture::class, inversedBy="profile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Picture::class, mappedBy="profile", cascade={"persist", "remove"})
      */
     private $picture;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Preference::class, mappedBy="profile", orphanRemoval=true)
+     */
+    private $preferences;
+
+    public function __construct()
+    {
+        $this->preferences = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -152,10 +165,47 @@ class Profile
         return $this->picture;
     }
 
-    public function setPicture(?Picture $picture): self
+    public function setPicture(Picture $picture): self
     {
+        // set the owning side of the relation if necessary
+        if ($picture->getProfile() !== $this) {
+            $picture->setProfile($this);
+        }
+
         $this->picture = $picture;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Preference[]
+     */
+    public function getPreferences(): Collection
+    {
+        return $this->preferences;
+    }
+
+    public function addPreference(Preference $preference): self
+    {
+        if (!$this->preferences->contains($preference)) {
+            $this->preferences[] = $preference;
+            $preference->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreference(Preference $preference): self
+    {
+        if ($this->preferences->removeElement($preference)) {
+            // set the owning side to null (unless already changed)
+            if ($preference->getProfile() === $this) {
+                $preference->setProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

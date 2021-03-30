@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="columns my-5">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <h3 class="title is-3">Profil</h3>
+            <div class="columns">
+                <div class="column">
+                    <figure id="imgProfile" class="image">
+                        <img src="{{ asset('img/profile/') }}{{ profil.picture.fileName }}" >
+                    </figure>
+                </div>
+                <div class="column">
+                    <h4 class="title is-4">My lovely details</h4>
+                    <p>{{ profil.info }}</p>
+                </div>
+            </div>
+            <table class="table my-6">
+                <tbody>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-venus-mars"></i></span></td>
+                    <th>Sex</th>
+                    <td>{{ profil.sex ? 'Man' : 'Woman' }}</td>
+                </tr>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-user"></i></span></td>
+                    <th>Username</th>
+                    <td>{{ profil.user.username }}</td>
+                </tr>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-at"></i></span></td>
+                    <th>Email</th>
+                    <td>{{ profil.user.email }}</td>
+                </tr>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-gifts"></i></span></td>
+                    <th>Birthday</th>
+                    <td>{{ profil.dateBirthday|date("Y-m-d") }}</td>
+                </tr>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-street-view"></i></span></td>
+                    <th>Post code</th>
+                    <td>{{ profil.codePostal }}</td>
+                </tr>
+                <tr>
+                    <td><span class="icon"><i class="fas fa-city"></i></span></td>
+                    <th>City</th>
+                    <td>{{ profil.city }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="columns my-5">
+        <div class="column is-three-fifths is-offset-one-fifth">
+
+        </div>
+    </div>
+
+{% endblock %}

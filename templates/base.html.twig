@@ -32,7 +32,7 @@
 <body>
 <header>
     <div class="container">
-        <nav class="navbar my-2" role="navigation" aria-label="main navigation">
+        <nav class="navbar my-3" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="{{ path('main_home') }}">
                     <img src="{{ asset('icon/logo_rencontre.png') }}" width="50" height="50">
@@ -52,7 +52,7 @@
                         <a class="navbar-item" href="">
                             Find Love
                         </a>
-                        <a class="navbar-item" href="{{ path('profile_profile') }}">
+                        <a class="navbar-item" href="{{ path('profile_info', {id: app.user.id}) }}">
                             My profile
                         </a>
                     {% endif %}
