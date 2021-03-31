@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Find Love | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h3 class="title is-3 my-6">Find your future partner</h3>
+    <div class="columns is-desktop  is-flex-wrap-wrap">
+        {% for profile in matchedprofiles %}
+            <div class="column is-3 ">
+                <div class="card my-2 mx-2">
+                    <div class="card-image px-2 py-2">
+                        <figure class="image is-4by3">
+                            <img src="{{ asset('img/profile/') }}{{ profile.picture.fileName }}" alt="Profile picture">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="content">
+                            <p class="title is-4"><a href="{{ path('profile_info', {id: profile.user.id}) }}">{{ profile.user.username }}</a></p>
+                            <p>Sex : {{ profile.sex? 'Man' : 'Woman' }}</p>
+                            <p>Year of birth : {{ profile.dateBirthday|date("Y") }}</p>
+                            <p>Post code : {{ profile.codePostal[0:2] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="notification is-danger is-light column my-6">
+                <p><strong>Oups...</strong> No one matches your wishes.</p>
+                <p>You should change your criteria.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

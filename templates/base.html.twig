@@ -54,8 +54,8 @@
                                 <a class="navbar-item" href="{{ path('profile_info', {id: app.user.id}) }}">
                                     My profile
                                 </a>
-                                {% if app.user.profile.preferences is not empty %}
-                                    <a class="navbar-item" href="">
+                                {% if app.user.profile.preference is not empty %}
+                                    <a class="navbar-item" href="{{ path('profile_list') }}">
                                         Find Love
                                     </a>
                                 {% endif %}

@@ -14,8 +14,11 @@
                     </figure>
                 </div>
                 <div class="column">
-                    <h4 class="title is-4">My lovely details</h4>
-                    <p>{{ profil.info }}</p>
+                    <div>
+                        <h4 class="title is-4">My lovely details</h4>
+                        <p>{{ profil.info }}</p>
+                    </div>
+
                 </div>
             </div>
             <table class="table my-6">
@@ -55,25 +58,25 @@
         </div>
     </div>
 
-    <div class="columns my-3">
-        <div class="column is-three-fifths is-offset-one-fifth">
-            <h3 class="title is-4">Add new preferences</h3>
-
-            {{ form_start(preferenceForm) }}
-            {{ form_row(preferenceForm.sex) }}
-            {{ form_row(preferenceForm.country) }}
-            {{ form_row(preferenceForm.ageRange) }}
-            <button type="submit" class="button is-large my-3" style="border:none">
-                <span class="icon"><i class="fas fa-2x fa-plus-circle"></i></span>
-            </button>
-            {{ form_end(preferenceForm) }}
+    {% if app.user.id == profil.user.id %}
+        {% if profil.preference is null %}
+        <div class="columns my-3">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <h3 class="title is-4">Add new preference</h3>
+                {{ form_start(preferenceForm) }}
+                {{ form_row(preferenceForm.sex) }}
+                {{ form_row(preferenceForm.country) }}
+                {{ form_row(preferenceForm.ageRange) }}
+                <button type="submit" class="button is-large my-3" style="border:none">
+                    <span class="icon"><i class="fas fa-2x fa-plus-circle"></i></span>
+                </button>
+                {{ form_end(preferenceForm) }}
+            </div>
         </div>
-    </div>
-
-    <div class="columns my-3">
-        <div class="column is-three-fifths is-offset-one-fifth">
-            {% if preferences is not empty %}
-                {% for preference in preferences %}
+        {% else %}
+        <div class="columns my-3">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <h3 class="title is-4">Your preference</h3>
                 <div class="card my-3">
                     <div class="card-content">
                         <div class="content">
@@ -81,18 +84,29 @@
                                 <span class="icon"><i class="fas fa-info-circle"></i></span>
                                 <span>criteria to find love !</span>
                             </span>
-                            <a class="is-pulled-right" href="{{ path('profile_removePreference', {id: preference.id}) }}">
+                            <a class="is-pulled-right" href="{{ path('profile_removePreference', {id: profil.preference.id}) }}">
                                 <span class="icon"><i class="far fa-trash-alt"></i></span>
                             </a>
-                            <p class="my-0"><strong>Wanted sex : </strong>{{ preference.sex? 'Man' : 'Woman' }}</p>
-                            <p class="my-0"><strong>Location : </strong>{{ preference.country }}</p>
-                            <p class="my-0"><strong>Age range : </strong>Between {{ preference.ageRange }} years old.</p>
+                            <p class="my-0"><strong>Wanted sex : </strong>{{ profil.preference.sex? 'Man' : 'Woman' }}</p>
+                            <p class="my-0"><strong>Location : </strong>{{ profil.preference.country }}</p>
+                            <p class="my-0"><strong>Age range : </strong>Between {{ profil.preference.ageRange }} years old.</p>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-            {% endif %}
+            </div>
         </div>
-    </div>
+        {% endif %}
+    {% endif %}
+
+    {% if app.user.id != profil.user.id %}
+        <div class="columns my-5">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <h3 class="title is-4">Show {{ profil.sex ? 'him' : 'her' }} your love !</h3>
+                <button class="button is-large" style="border:none" onclick="alert('LOVE !!!')">
+                    <span class="icon"><i class="fas fa-2x fa-heart"></i></span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

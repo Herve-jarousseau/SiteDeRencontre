@@ -33,10 +33,11 @@ class Preference
     private $ageRange;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Profile::class, inversedBy="preferences")
+     * @ORM\OneToOne(targetEntity=Profile::class, inversedBy="preference")
      * @ORM\JoinColumn(nullable=false)
      */
     private $profile;
+
 
     public function getId(): ?int
     {
@@ -84,10 +85,11 @@ class Preference
         return $this->profile;
     }
 
-    public function setProfile(?Profile $profile): self
+    public function setProfile(Profile $profile): self
     {
         $this->profile = $profile;
 
         return $this;
     }
+
 }

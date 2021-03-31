@@ -112,19 +112,17 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         $preferenceForm->handleRequest($request);
         if ( $preferenceForm->isSubmitted() && $preferenceForm->isValid() ) {
             $preference->setProfile($userProfile);
-
+            $userProfile->setPreference($preference);
             $em->persist($preference);
             $em->flush();
         }
-
-        $preferences = $userProfile->getPreferences();
+        // Méthode refresh, inconvénient c'est qu'elle refait une requete !
+        //$em->refresh($userProfile);
 
         return $this->render('/profile/infoProfile.html.twig', [
             'profil' => $userProfile,
-            'preferences' => $preferences,
             'preferenceForm' => $preferenceForm->createView(),
         ]);
-
     }
 
     /**
@@ -142,6 +140,20 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         }
 
         return $this->redirectToRoute('profile_info', ['id' => $idUserOfSession]);
+    }
+
+    /**
+     * @Route("/profile/list", name="profile_list")
+     */
+    public function listProfile(Request $request, ProfileRepository $profileRepository, EntityManagerInterface $em): Response {
+
+        $listMatchedProfiles = $profileRepository->getprofileList($this->getUser());
+
+        dump($listMatchedProfiles);
+
+        return $this->render('/profile/listProfile.html.twig', [
+            'matchedprofiles' => $listMatchedProfiles,
+        ]);
     }
 
 }

@@ -61,14 +61,9 @@ class Profile
     private $picture;
 
     /**
-     * @ORM\OneToMany(targetEntity=Preference::class, mappedBy="profile", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=Preference::class, mappedBy="profile")
      */
-    private $preferences;
-
-    public function __construct()
-    {
-        $this->preferences = new ArrayCollection();
-    }
+    private $preference;
 
 
     public function getId(): ?int
@@ -177,35 +172,21 @@ class Profile
         return $this;
     }
 
-    /**
-     * @return Collection|Preference[]
-     */
-    public function getPreferences(): Collection
+    public function getPreference(): ?Preference
     {
-        return $this->preferences;
+        return $this->preference;
     }
 
-    public function addPreference(Preference $preference): self
+    public function setPreference(Preference $preference): self
     {
-        if (!$this->preferences->contains($preference)) {
-            $this->preferences[] = $preference;
+        // set the owning side of the relation if necessary
+        if ($preference->getProfile() !== $this) {
             $preference->setProfile($this);
         }
 
-        return $this;
-    }
-
-    public function removePreference(Preference $preference): self
-    {
-        if ($this->preferences->removeElement($preference)) {
-            // set the owning side to null (unless already changed)
-            if ($preference->getProfile() === $this) {
-                $preference->setProfile(null);
-            }
-        }
+        $this->preference = $preference;
 
         return $this;
     }
-
 
 }

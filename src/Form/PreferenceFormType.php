@@ -27,10 +27,10 @@ class PreferenceFormType extends AbstractType
                 'label' => 'Age range',
                 'choices' => [
                     '18 - 25' => '18 and 25',
-                    '26 - 35' => '26 and 35',
-                    '36 - 45' => '36 and 45',
-                    '46 - 55' => '46 and 55',
-                    '56 - 65' => '56 and 65',
+                    '25 - 35' => '25 and 35',
+                    '35 - 45' => '35 and 45',
+                    '45 - 55' => '45 and 55',
+                    '55 - 65' => '55 and 65',
                 ]
             ])
         ;
