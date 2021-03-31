@@ -54,9 +54,44 @@
             </table>
         </div>
     </div>
-    <div class="columns my-5">
-        <div class="column is-three-fifths is-offset-one-fifth">
 
+    <div class="columns my-3">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <h3 class="title is-4">Add new preferences</h3>
+
+            {{ form_start(preferenceForm) }}
+            {{ form_row(preferenceForm.sex) }}
+            {{ form_row(preferenceForm.country) }}
+            {{ form_row(preferenceForm.ageRange) }}
+            <button type="submit" class="button is-large my-3" style="border:none">
+                <span class="icon"><i class="fas fa-2x fa-plus-circle"></i></span>
+            </button>
+            {{ form_end(preferenceForm) }}
+        </div>
+    </div>
+
+    <div class="columns my-3">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            {% if preferences is not empty %}
+                {% for preference in preferences %}
+                <div class="card my-3">
+                    <div class="card-content">
+                        <div class="content">
+                            <span class="icon-text has-text-info">
+                                <span class="icon"><i class="fas fa-info-circle"></i></span>
+                                <span>criteria to find love !</span>
+                            </span>
+                            <a class="is-pulled-right" href="{{ path('profile_removePreference', {id: preference.id}) }}">
+                                <span class="icon"><i class="far fa-trash-alt"></i></span>
+                            </a>
+                            <p class="my-0"><strong>Wanted sex : </strong>{{ preference.sex? 'Man' : 'Woman' }}</p>
+                            <p class="my-0"><strong>Location : </strong>{{ preference.country }}</p>
+                            <p class="my-0"><strong>Age range : </strong>Between {{ preference.ageRange }} years old.</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 

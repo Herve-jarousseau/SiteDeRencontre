@@ -28,7 +28,7 @@ class Preference
     private $country;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=30)
      */
     private $ageRange;
 
@@ -67,12 +67,12 @@ class Preference
         return $this;
     }
 
-    public function getAgeRange(): ?int
+    public function getAgeRange(): ?string
     {
         return $this->ageRange;
     }
 
-    public function setAgeRange(int $ageRange): self
+    public function setAgeRange(string $ageRange): self
     {
         $this->ageRange = $ageRange;
 

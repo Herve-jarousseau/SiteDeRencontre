@@ -5,9 +5,12 @@ namespace App\Controller;
 
 
 use App\Entity\Picture;
+use App\Entity\Preference;
 use App\Entity\Profile;
+use App\Form\PreferenceFormType;
 use App\Form\ProfileFormType;
 use App\Form\ProfilePictureFormType;
+use App\Repository\PreferenceRepository;
 use App\Repository\ProfileRepository;
 use claviska\SimpleImage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,15 +100,49 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     /**
      * @Route("/profile/info/{id}", name="profile_info", requirements={"id"="\d+"})
      */
-    public function Informations(Request $request, ProfileRepository $profileRepository, EntityManagerInterface $em, $id): Response {
+    public function informations(Request $request, ProfileRepository $profileRepository, EntityManagerInterface $em, $id): Response {
 
-        $userProfile = $profileRepository->find($id);
+        $userProfile = $profileRepository->findOneBy([
+            'user' => $id
+        ]);
 
+        $preference = new Preference();
+        $preferenceForm = $this->createForm(PreferenceFormType::class, $preference);
+
+        // soumission de la requete
+        $preferenceForm->handleRequest($request);
+        if ( $preferenceForm->isSubmitted() && $preferenceForm->isValid() ) {
+            $preference->setProfile($userProfile);
+
+            $em->persist($preference);
+            $em->flush();
+        }
+
+        $preferences = $userProfile->getPreferences();
 
         return $this->render('/profile/infoProfile.html.twig', [
             'profil' => $userProfile,
+            'preferences' => $preferences,
+            'preferenceForm' => $preferenceForm->createView(),
         ]);
 
+    }
+
+    /**
+     * @Route("/preference/remove/{id}", name="profile_removePreference", requirements={"id"="\d+"})
+     */
+    public function deletePreference(Request $request, PreferenceRepository $preferenceRepository, EntityManagerInterface $em, $id): Response {
+
+        $preferenceToRemove = $preferenceRepository->find($id);
+        $idUserOfPreference = $preferenceToRemove->getProfile()->getUser()->getId();
+        $idUserOfSession = $this->getUser()->getId();
+
+        if ( $idUserOfPreference == $idUserOfSession && $preferenceToRemove ) {
+            $em->remove($preferenceToRemove);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('profile_info', ['id' => $idUserOfSession]);
     }
 
 }
