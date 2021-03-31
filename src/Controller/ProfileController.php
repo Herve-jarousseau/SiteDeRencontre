@@ -91,7 +91,6 @@ class ProfileController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             return $this->redirectToRoute('main_home');
         }
 
-
         return $this->render('profile/myPicture.html.twig', [
             "pictureForm" => $pictureForm->createView(),
         ]);

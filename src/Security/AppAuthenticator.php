@@ -31,6 +31,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     private $csrfTokenManager;
     private $passwordEncoder;
 
+
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
@@ -94,6 +95,14 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
+        }
+
+        // Redirection si l'utilisateur ne termine pas les prérequis de creation de profil
+        if (!$token->getUser()->getProfile()) {
+            return new RedirectResponse($this->urlGenerator->generate('profile_profile'));
+        }
+        if (!$token->getUser()->getProfile()->getPicture()) {
+            return new RedirectResponse($this->urlGenerator->generate('profile_Photo'));
         }
 
         return new RedirectResponse($this->urlGenerator->generate('main_home'));

@@ -49,12 +49,18 @@
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
                     {% if app.user %}
-                        <a class="navbar-item" href="">
-                            Find Love
-                        </a>
-                        <a class="navbar-item" href="{{ path('profile_info', {id: app.user.id}) }}">
-                            My profile
-                        </a>
+                        {% if app.user.profile is not null %}
+                            {% if app.user.profile.picture is not null %}
+                                <a class="navbar-item" href="{{ path('profile_info', {id: app.user.id}) }}">
+                                    My profile
+                                </a>
+                                {% if app.user.profile.preferences is not empty %}
+                                    <a class="navbar-item" href="">
+                                        Find Love
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
