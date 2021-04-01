@@ -65,6 +65,23 @@ class Profile
      */
     private $preference;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reaction::class, mappedBy="userLiked", orphanRemoval=true)
+     */
+    private $reactionsLiked;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reaction::class, mappedBy="sendTo", orphanRemoval=true)
+     */
+    private $reactionsSendTo;
+
+
+    public function __construct()
+    {
+        $this->reactionsLiked = new ArrayCollection();
+        $this->reactionsSendTo = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -189,4 +206,63 @@ class Profile
         return $this;
     }
 
+    /**
+     * @return Collection|Reaction[]
+     */
+    public function getReactionsLiked(): Collection
+    {
+        return $this->reactionsLiked;
+    }
+
+    public function addReactionsLiked(Reaction $reaction): self
+    {
+        if (!$this->reactionsLiked->contains($reaction)) {
+            $this->reactionsLiked[] = $reaction;
+            $reaction->setUserLiked($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReactionsLiked(Reaction $reaction): self
+    {
+        if ($this->reactionsLiked->removeElement($reaction)) {
+            // set the owning side to null (unless already changed)
+            if ($reaction->getUserLiked() === $this) {
+                $reaction->setUserLiked(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reaction[]
+     */
+    public function getReactionsSendTo(): Collection
+    {
+        return $this->reactionsSendTo;
+    }
+
+    public function addReactionsSendTo(Reaction $reaction): self
+    {
+        if (!$this->reactionsSendTo->contains($reaction)) {
+            $this->reactionsSendTo[] = $reaction;
+            $reaction->setSendTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReactionsSendTo(Reaction $reaction): self
+    {
+        if ($this->reactionsLiked->removeElement($reaction)) {
+            // set the owning side to null (unless already changed)
+            if ($reaction->getSendTo() === $this) {
+                $reaction->setSendTo(null);
+            }
+        }
+
+        return $this;
+    }
 }

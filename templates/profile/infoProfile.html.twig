@@ -15,6 +15,11 @@
                 </div>
                 <div class="column">
                     <div>
+                        {% if app.user.id != profil.user.id %}
+                            <span id="{{ profil.user.id }}" class="LikePerson button is-medium is-pulled-right has-text-danger" style="border:none">
+                                <span class="icon"><i class="fas fa-lg fa-heart"></i></span>
+                            </span>
+                        {% endif %}
                         <h4 class="title is-4">My lovely details</h4>
                         <p>{{ profil.info }}</p>
                     </div>
@@ -96,17 +101,6 @@
             </div>
         </div>
         {% endif %}
-    {% endif %}
-
-    {% if app.user.id != profil.user.id %}
-        <div class="columns my-5">
-            <div class="column is-three-fifths is-offset-one-fifth">
-                <h3 class="title is-4">Show {{ profil.sex ? 'him' : 'her' }} your love !</h3>
-                <button class="button is-large" style="border:none" onclick="alert('LOVE !!!')">
-                    <span class="icon"><i class="fas fa-2x fa-heart"></i></span>
-                </button>
-            </div>
-        </div>
     {% endif %}
 
 {% endblock %}
