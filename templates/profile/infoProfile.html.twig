@@ -16,7 +16,7 @@
                 <div class="column">
                     <div>
                         {% if app.user.id != profil.user.id %}
-                            <span id="{{ profil.user.id }}" class="LikePerson button is-medium is-pulled-right has-text-danger" style="border:none">
+                            <span data-user-id="{{ profil.id }}" class="likePerson button is-medium is-pulled-right has-text-danger" style="border:none">
                                 <span class="icon"><i class="fas fa-lg fa-heart"></i></span>
                             </span>
                         {% endif %}
